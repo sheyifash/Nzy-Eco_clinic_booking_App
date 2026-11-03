@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinic Booking System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon">✚</span>
+      <div>
+        <h1>Nzy-Eco</h1>
+        <p>Clinic Appointment Portal</p>
+      </div>
+    </div>
+
+    <div class="connection">
+      <span id="connection-indicator" class="status-dot"></span>
+      <span id="connection-text">Not connected</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">PATIENT PORTAL</p>
+        <h2>Manage your healthcare appointments</h2>
+        <p>Find an appointment, book a visit, or manage your existing bookings.</p>
+      </div>
+    </section>
+
+    <section class="config-panel">
+      <h3>API connection</h3>
+      <div class="config-fields">
+        <div class="field">
+          <label for="api-url">API base URL</label>
+          <input
+            id="api-url"
+            type="url"
+            value="http://localhost:8000"
+            placeholder="http://localhost:8000"
+          />
+        </div>
+
+        <div class="field">
+          <label for="api-key">API key</label>
+          <input
+            id="api-key"
+            type="password"
+            placeholder="Enter your API key"
+            autocomplete="off"
+          />
+        </div>
+
+        <button id="connect-btn" class="btn btn-primary">
+          Connect
+        </button>
+      </div>
+      <p class="hint">Your API key is kept in browser memory and is not saved.</p>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">APPOINTMENTS</p>
+          <h2>Available time slots</h2>
+        </div>
+        <button id="refresh-btn" class="btn btn-secondary">
+          ↻ Refresh
+        </button>
+      </div>
+
+      <div class="filter-panel">
+        <div class="field">
+          <label for="provider-filter">Filter by provider</label>
+          <input
+            id="provider-filter"
+            type="text"
+            placeholder="e.g. Dr Ade"
+          />
+        </div>
+        <button id="filter-btn" class="btn btn-primary">Search</button>
+        <button id="clear-filter-btn" class="btn btn-secondary">Clear</button>
+      </div>
+
+      <div id="slots-container" class="slots-grid">
+        <div class="empty-state">
+          Connect to the API to view available appointments.
+        </div>
+      </div>
+    </section>
+
+    <section class="section booking-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">NEW APPOINTMENT</p>
+          <h2>Book an appointment</h2>
+        </div>
+      </div>
+
+      <form id="booking-form" class="form-card">
+        <div class="selected-slot" id="selected-slot">
+          No appointment selected. Select a slot above first.
+        </div>
+
+        <input type="hidden" id="selected-slot-id" />
+
+        <div class="field">
+          <label for="patient-name">Full name</label>
+          <input
+            id="patient-name"
+            type="text"
+            placeholder="Enter your full name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="patient-email">Email address</label>
+          <input
+            id="patient-email"
+            type="email"
+            placeholder="Enter your email address"
+            required
+          />
+        </div>
+
+        <button type="submit" id="book-btn" class="btn btn-primary" disabled>
+          Confirm booking
+        </button>
+
+        <div id="booking-message" class="message"></div>
+      </form>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">MY APPOINTMENTS</p>
+          <h2>Find my bookings</h2>
+        </div>
+      </div>
+
+      <form id="lookup-form" class="lookup-form">
+        <div class="field">
+          <label for="lookup-email">Email address</label>
+          <input
+            id="lookup-email"
+            type="email"
+            placeholder="Enter the email used for booking"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Find bookings</button>
+      </form>
+
+      <div id="bookings-container" class="bookings-list">
+        <div class="empty-state">
+          Your bookings will appear here.
+        </div>
+      </div>
+
+      <button id="next-page-btn" class="btn btn-secondary hidden">
+        Load more
+      </button>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Nzy-Eco Clinic Booking System</p>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
