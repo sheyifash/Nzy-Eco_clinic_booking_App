@@ -1,5 +1,7 @@
 
-let apiBaseUrl = "";
+let apiBaseUrl =  window.location.hostname === "localhost"
+  ? "http://localhost:8000"
+  : "https://nzy-eco-clinic-booking-app.onrender.com";;
 let apiKey = "";
 let selectedSlot = null;
 let nextCursor = null;
