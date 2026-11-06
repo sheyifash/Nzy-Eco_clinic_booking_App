@@ -9,6 +9,13 @@ import BookingAttempt from "./model/bookingAttempt.js";
 
 dotenv.config();
 
+console.log("API KEY CHECK:", {
+    exists: Boolean(process.env.API_KEY),
+    length: process.env.API_KEY?.length,
+    firstChar: process.env.API_KEY?.[0],
+    lastChar: process.env.API_KEY?.at(-1)
+});
+
 const app = express();
 app.use(express.json());
 app.use(express.static("public"));
