@@ -60,51 +60,34 @@ function formatDate(date) {
   });
 }
 
+// Connect to the backend.
 document.getElementById("connect-btn").addEventListener("click", async () => {
-    const url = document.getElementById("api-url").value.trim();
-    const key = document.getElementById("api-key").value;
+  const url = document.getElementById("api-url").value.trim();
+  const key = document.getElementById("api-key").value.trim();
 
-    console.log("Frontend API key diagnostic:", {
-        keyLength: key.length,
-        trimmedLength: key.trim().length,
-        firstChar: key[0],
-        lastChar: key[key.length - 1]
-    });
+  if (!url || !key) {
+    showToast("Enter your API URL and API key");
+    return;
+  }
 
+  try {
     apiBaseUrl = url.replace(/\/+$/, "");
-    apiKey = key.trim();
+    apiKey = key;
 
     await loadSlots();
+
+    connectionIndicator.classList.add("connected");
+    connectionText.textContent = "Connected";
+
+    showToast("Connected to clinic API");
+  } catch (error) {
+    apiKey = "";
+    connectionIndicator.classList.remove("connected");
+    connectionText.textContent = "Connection failed";
+
+    showToast(error.message);
+  }
 });
-
-// // Connect to the backend.
-// document.getElementById("connect-btn").addEventListener("click", async () => {
-//   const url = document.getElementById("api-url").value.trim();
-//   const key = document.getElementById("api-key").value.trim();
-
-//   if (!url || !key) {
-//     showToast("Enter your API URL and API key");
-//     return;
-//   }
-
-//   try {
-//     apiBaseUrl = url.replace(/\/+$/, "");
-//     apiKey = key;
-
-//     await loadSlots();
-
-//     connectionIndicator.classList.add("connected");
-//     connectionText.textContent = "Connected";
-
-//     showToast("Connected to clinic API");
-//   } catch (error) {
-//     apiKey = "";
-//     connectionIndicator.classList.remove("connected");
-//     connectionText.textContent = "Connection failed";
-
-//     showToast(error.message);
-//   }
-// });
 
 // Load appointment slots.
 async function loadSlots(provider = "") {
