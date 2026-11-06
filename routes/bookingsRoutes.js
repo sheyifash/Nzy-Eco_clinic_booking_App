@@ -69,6 +69,22 @@ function replayResponse(res, record) {
     .status(record.responseStatus)
     .json(record.responseBody);
 }
+
+async function sendResponse(res, status, body, idempotencyRecord) {
+  if (idempotencyRecord) {
+    try {
+      idempotencyRecord.responseStatus = status;
+      idempotencyRecord.responseBody = body;
+      idempotencyRecord.status = "completed";
+
+      await idempotencyRecord.save();
+    } catch (error) {
+      console.error("Failed to save idempotency response:", error);
+    }
+  }
+
+  return res.status(status).json(body);
+}
 // Atomically record an attempt for an email address.
 // The returned document tells us whether this attempt was allowed.
 
@@ -113,6 +129,7 @@ async function recordAttempt(email) {
       {
         new: true,
         upsert: true,
+        updatePipeline: true
       }
     );
   } catch (error) {
@@ -128,6 +145,7 @@ async function recordAttempt(email) {
       {
         new: true,
         upsert: false,
+        updatePipeline: true
       }
     );
 
